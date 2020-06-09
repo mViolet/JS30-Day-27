@@ -1,3 +1,4 @@
+<!-- Coding along with wes, getting comfortable with mouse events -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +36,33 @@
   </div>
 
 <script>
+const slider = document.querySelector('.items');
+let isDown = false;
+let startX; //tracks where click down is
+let scrollLeft; //tracks where initial scroll was
+
+slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+});
+slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+});
+slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+});
+slider.addEventListener('mousemove', (e) => {
+    if(!isDown) return; //stops the function from running
+    e.preventDefault(); //stops weird selecting of text the bowser might do
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * .75; //how far we have moved from the initial place - multiplied to move slider faster
+    // console.log(walk);
+    slider.scrollLeft = scrollLeft - walk;
+});
 </script>
 
   </body>
